@@ -18,14 +18,27 @@ const Dropzone = () => {
 
     const handleFileButtonClick = () => {
         fileInputRef.current?.click()
-      }
+    }
+
+    const handleCameraButtonClick = () => {
+        if (fileInputRef.current) {
+          fileInputRef.current.setAttribute('capture', 'environment')
+          fileInputRef.current.click()
+        }
+    }
+
     return (
         <StyledContainer dragactive={isDragActive.toString()}>
             <Stack
                 {...getRootProps()}
                 className="dropzone"
             >
-                <input {...getInputProps()} ref={fileInputRef}/>
+                <input
+                    {...getInputProps()}
+                    ref={fileInputRef}
+                    accept="image/*"
+                    capture="environment"
+                />
                 <Typography variant="h4">
                     {
                         isDragActive
@@ -35,7 +48,7 @@ const Dropzone = () => {
                 </Typography>
                 <Stack className='options_container'>
                     <IconButton onClick={handleFileButtonClick}><FolderOutlined/></IconButton>
-                    <IconButton><CameraAltOutlined/></IconButton>
+                    <IconButton onClick={handleCameraButtonClick}><CameraAltOutlined/></IconButton>
                 </Stack>
             </Stack>
         </StyledContainer>
