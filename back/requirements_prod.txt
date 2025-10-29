@@ -1,0 +1,49 @@
+# A installer seulement en production
+# =============================================
+# CORE DJANGO & BACKEND
+# =============================================
+Django==5.2.7
+djangorestframework==3.16.1
+djangorestframework-simplejwt==5.3.0
+django-cors-headers==4.4.0
+psycopg2-binary==2.9.11
+asgiref==3.10.0
+sqlparse==0.5.3
+
+# =============================================
+# MACHINE LEARNING & VISION (VOTRE MODÈLE OCR)
+# =============================================
+torch==2.9.0+cpu
+torchvision==0.24.0+cpu
+numpy==2.2.6
+opencv-python==4.12.0.88
+scipy==1.16.2
+pillow==12.0.0
+
+# =============================================
+# AUDIO & MUSIC GENERATION
+# =============================================
+pydub==0.25.1
+
+# =============================================
+# UTILITIES & PERFORMANCE
+# =============================================
+python-dotenv==1.2.1
+requests==2.32.5
+python-json-logger==4.0.0
+tqdm==4.67.1
+psutil==7.1.2
+
+# =============================================
+# SECURITY
+# =============================================
+certifi==2025.10.5
+urllib3==2.5.0
+charset-normalizer==3.4.4
+idna==3.11
+
+# =============================================
+# TIME & DATE HANDLING
+# =============================================
+pytz==2025.2
+python-dateutil==2.9.0.post0
