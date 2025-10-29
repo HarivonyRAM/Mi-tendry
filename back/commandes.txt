@@ -76,10 +76,16 @@ DATABASES = {
 # 5. Création de migration
 `python manage.py makemigrations`
 
+## Pour la création d'une migration d'une app spécifique
+`python manage.py makemigrations nom_app`
+
 # ------>(A appliquer sur une base de donnée test avant de les migrer sur la base de donnée prod)<-------
 
 # 6. Application des migrations 
 `python manage.py migrate`
+
+## Pour la création d'une migration d'une app spécifique
+`python manage.py migrate nom_app`
 
 # 7. Vérification des migrations 
 `python manage.py showmigrations nom_app`
