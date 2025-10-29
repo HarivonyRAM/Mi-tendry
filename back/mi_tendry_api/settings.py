@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'mi_tendry_api.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
+        "NAME": "test",
         "USER": "postgres",
         "PASSWORD": "postgres",
         "HOST": "127.0.0.1",
