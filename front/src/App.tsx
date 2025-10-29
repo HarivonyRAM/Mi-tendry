@@ -1,15 +1,11 @@
-import './App.css'
+import Landing from "./pages/Landing/Landing"
+import { ThemeProvider } from "./features/theme/providers/theme.provider"
 
-function App() {
-  //const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <div className="text-3xl font-bold underline"></div>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1> 
-    </>
+    <ThemeProvider>
+      <Landing/>
+    </ThemeProvider>
   )
 }
 
