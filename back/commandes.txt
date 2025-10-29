@@ -1,7 +1,3 @@
-# Mi-tendry
-GP M2
-
-
 # ===============================
 # Windows
 # ===============================
@@ -73,3 +69,17 @@ DATABASES = {
 
 # 3. Test de lancement du serveur
 `python manage.py runserver`
+
+# 4. Création de module du projet
+`python manage.py startapp nom_module`
+
+# 5. Création de migration
+`python manage.py makemigrations`
+
+# ------>(A appliquer sur une base de donnée test avant de les migrer sur la base de donnée prod)<-------
+
+# 6. Application des migrations 
+`python manage.py migrate`
+
+# 7. Vérification des migrations 
+`python manage.py showmigrations nom_app`
