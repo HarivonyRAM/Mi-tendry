@@ -11,11 +11,10 @@ export const StyledContainer = styled(Stack)(({ theme }) => ({
         background: "#e8f9ff",
         padding: "30px",
         borderRadius: "10px",
-        gap: "15px"
+        gap: "15px",
+        alignItems: "center"
     },
     "& .logo_container": {
-        alignItems: "center",
-        justifyContent: "center",
         "& h4": {
             fontWeight: "bold",
             color: theme.palette.secondary.main
