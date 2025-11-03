@@ -19,13 +19,17 @@ const useAuth = () => {
       },
   })
 
-    const { mutateAsync: register, isPending: isLoadingRegister, error: registerError } = useMutation({
-        mutationFn: async (data: RegisterCredentials) => {
+  const { mutateAsync: register, isPending: isLoadingRegister, error: registerError } = useMutation({
+    mutationFn: async (data: RegisterCredentials) => {
+        const { password, confirmPassword } = data
+        if (password !== confirmPassword)
+            throw new Error("Les mots de passe ne correspondent pas.")
+    
         const user = await authService.register(data)
         setUser(user)
         return user
-        }
-    })
+    }
+  })
 
   const logout = () => {
       authService.logout()
