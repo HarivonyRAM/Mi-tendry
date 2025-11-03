@@ -1,15 +1,17 @@
-import './App.css'
+import { router } from "./app/routes/router"
+import { RouterProvider } from 'react-router-dom'
+import { ThemeProvider } from "./features/theme/providers/theme.provider"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-function App() {
-  //const [count, setCount] = useState(0)
+const queryClient = new QueryClient()
 
+const App = () => {
   return (
-    <>
-      <div className="text-3xl font-bold underline"></div>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1> 
-    </>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 
