@@ -117,17 +117,17 @@ def deleteUser(request, pk):
 def login(request):
     from django.contrib.auth import authenticate
     
-    username = request.data.get('username')
+    email = request.data.get('email')
     password = request.data.get('password')
     
-    user = authenticate(username=username, password=password)
+    user = authenticate(email=email, password=password)
     
     if user:
         token, created = Token.objects.get_or_create(user=user)
         return Response({
             "token": token.key,
             "user_id": user.id,
-            "username": user.username,
+            "email": user.email,
             "message": "Connexion réussie"
         }, status=status.HTTP_200_OK)
     else:
