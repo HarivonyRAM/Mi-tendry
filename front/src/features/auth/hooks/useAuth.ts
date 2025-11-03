@@ -22,6 +22,7 @@ const useAuth = () => {
   const logout = () => {
       authService.logout()
       setUser(null)
+      window.location.reload()
   }
 
   return {

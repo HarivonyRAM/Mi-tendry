@@ -22,7 +22,7 @@ const LoginForm: LoginFormComponent = () => {
     return (
         <StyledContainer>
             <FormProvider {...methods}>
-                <Typography variant="h6">Se connecter</Typography>
+                <Typography variant="h5">Se connecter</Typography>
                 <Input
                     variant="filled"
                     label="Email"

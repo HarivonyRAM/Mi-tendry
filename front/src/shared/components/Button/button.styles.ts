@@ -51,6 +51,7 @@ export const StyledContainer = styled(Stack, {
 
         "&.MuiButton-contained": {
             border: "1px solid transparent",
+            color: "#eeeeee",
             "&:hover": {
             }
         }

@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
-const primary = "#3ebbab"
-const secondary = "#000000"
+const primary = "#00af84"
+const secondary = "#0a4469"
 const text = "#333333"
 const defaultTheme = createTheme({
     palette: {
