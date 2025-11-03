@@ -1,6 +1,6 @@
 
-import { loginRequest } from '../api/auth.api'
-import type { Credentials, User, AuthResponse, JwtPayload } from '../types'
+import { loginRequest, registerRequest } from '../api/auth.api'
+import type { LoginCredentials, User, AuthResponse, JwtPayload, RegisterCredentials } from '../types'
 
 const LOCAL_STORAGE_TOKEN_KEY = 'token'
 
@@ -14,8 +14,14 @@ const getUser = (token?: string): User | null => {
     return { id, email, name, exp }
 }
 
-const login = async (credentials: Credentials): Promise<User | null> => {
+const login = async (credentials: LoginCredentials): Promise<User | null> => {
     const { token }: AuthResponse = await loginRequest(credentials)
+    localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token)
+    return getUser(token)
+}
+
+const register = async (credentials: RegisterCredentials): Promise<User | null> => {
+    const { token }: AuthResponse = await registerRequest(credentials)
     localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token)
     return getUser(token)
 }
@@ -35,4 +41,4 @@ const parseJwt = (token: string): JwtPayload | null => {
     }
 }
 
-export default { login, logout, getUser }
+export default { login, register, logout, getUser }

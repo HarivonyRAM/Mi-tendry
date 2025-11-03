@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import authService from '../services/auth.service'
-import type { User, Credentials } from '../types'
+import type { User, LoginCredentials, RegisterCredentials } from '../types'
 
 const useAuth = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -11,13 +11,21 @@ const useAuth = () => {
       if (restoredUser) setUser(restoredUser)
   }, [])
 
-  const { mutateAsync: login, isPending: isLoading, error } = useMutation({
-      mutationFn: async (credentials: Credentials) => {
+  const { mutateAsync: login, isPending: isLoadingLogin, error: loginError } = useMutation({
+      mutationFn: async (credentials: LoginCredentials) => {
           const user = await authService.login(credentials)
           setUser(user)
           return user
       },
   })
+
+    const { mutateAsync: register, isPending: isLoadingRegister, error: registerError } = useMutation({
+        mutationFn: async (data: RegisterCredentials) => {
+        const user = await authService.register(data)
+        setUser(user)
+        return user
+        }
+    })
 
   const logout = () => {
       authService.logout()
@@ -29,8 +37,11 @@ const useAuth = () => {
       login,
       logout,
       user,
-      isLoading,
-      error
+      isLoading: isLoadingLogin,
+      error: loginError,
+      register,
+      isLoadingRegister,
+      registerError
   }
 }
 
