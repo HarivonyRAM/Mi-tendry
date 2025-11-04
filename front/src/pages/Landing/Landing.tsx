@@ -1,9 +1,9 @@
 import { Stack, Typography } from "@mui/material"
 import Header from "../../layouts/Header/Header"
 import { StyledContainer } from "./landing.styles"
-import Preview from "../../features/music/components/preview/Preview"
+import Preview from "../../features/music/components/Preview/Preview"
 import { useState } from "react"
-import UploadForm from "../../features/music/components/form/UploadForm"
+import UploadForm from "../../features/music/components/UploadForm/UploadForm"
 
 const Landing = () => {
     const [ file, setFile ] = useState<File | null>(null)

@@ -4,12 +4,10 @@ import { StyledContainer } from "./preview.styles"
 import type { PreviewComponent } from './preview.types';
 import Select from '../../../../shared/components/Select/Select';
 import { useState } from 'react';
+import musicTypes from '../../../../shared/constants/musicTypes';
 
 const Preview: PreviewComponent = ({ file, onClose }) => {
-    const options = [
-        { value: "Gospel", label: "Gospel" }
-    ]
-    const defaultType = options[0].value
+    const defaultType = musicTypes[0]
     const [ type, setType ] = useState<string | null>(defaultType)
 
     const play = () => {
@@ -25,7 +23,7 @@ const Preview: PreviewComponent = ({ file, onClose }) => {
             <Stack className='body'>
                 <Box component="img" src={URL.createObjectURL(file!)}/>
                 <Select
-                    options={options}
+                    options={musicTypes.map(t => ({ label: t, value: t }))}
                     defaultValue={defaultType}
                     onChange={e => setType(e.target.value as string)}
                 />
