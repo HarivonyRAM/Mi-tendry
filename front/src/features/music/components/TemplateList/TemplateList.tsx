@@ -5,10 +5,12 @@ import { PlayArrow } from '@mui/icons-material'
 import Select from "../../../../shared/components/Select/Select"
 import musicTypes from "../../../../shared/constants/musicTypes"
 import { useEffect, useState } from "react"
+import useMusic from "../../hooks/useMusic"
 
 const TemplateList = () => {
     const defaultType = musicTypes[0]
     const list = useAppSelector(state => state.music)
+    const { play: playMusic } = useMusic()
     const [ types, setTypes ] = useState<(string | null)[]>([])
     
     useEffect(() => {
@@ -23,8 +25,8 @@ const TemplateList = () => {
         setTypes(values)
     }
 
-    const play = () => {
-
+    const play = async (id: string, index: number) => {
+        await playMusic(id, types[index] ?? "")
     }
     
     return list.map((template, index) => (
@@ -37,7 +39,7 @@ const TemplateList = () => {
                     defaultValue={defaultType}
                     onChange={e => updateType(index, e.target.value as string)}
                 />
-                <IconButton onClick={play}><PlayArrow/></IconButton>
+                <IconButton onClick={() => play(template.id!, index)}><PlayArrow/></IconButton>
             </Stack>
             <Divider orientation="horizontal"/>
         </StyledItem>

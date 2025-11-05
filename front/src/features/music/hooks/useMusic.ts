@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../../../app/store/hooks"
-import { getTemplateList } from "../services/music.service"
+import { getTemplateList, playMusic, playNewMusic } from "../services/music.service"
 import { setMusics } from "../slices/music.slice"
 import type { Music } from "../types"
 
@@ -12,7 +12,15 @@ const useMusic = () => {
         return list
     }
 
-    return { getList }
+    const playNew = async(file: File, type: string) => {
+        await playNewMusic(file, type)
+    }
+
+    const play = async(id: string, type: string) => {
+        await playMusic(id, type)
+    }
+
+    return { getList, play, playNew }
 }
 
 export default useMusic
