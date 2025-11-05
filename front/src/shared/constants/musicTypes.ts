@@ -1,6 +1,6 @@
 const musicTypes = [
-    "Gospel",
     "Classique",
+    "Gospel",
     "Jazz"
 ]
 

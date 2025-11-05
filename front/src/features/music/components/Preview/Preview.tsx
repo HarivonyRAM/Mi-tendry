@@ -5,13 +5,15 @@ import type { PreviewComponent } from './preview.types';
 import Select from '../../../../shared/components/Select/Select';
 import { useState } from 'react';
 import musicTypes from '../../../../shared/constants/musicTypes';
+import useMusic from '../../hooks/useMusic';
 
 const Preview: PreviewComponent = ({ file, onClose }) => {
     const defaultType = musicTypes[0]
+    const { playNew } = useMusic()
     const [ type, setType ] = useState<string | null>(defaultType)
 
-    const play = () => {
-
+    const play = async () => {
+        await playNew(file!, type ?? defaultType)
     }
 
     return (

@@ -1,4 +1,4 @@
-import { getTemplateListRequest } from "../api/music.api"
+import { getTemplateListRequest, playNewRequest, playRequest } from "../api/music.api"
 import type { Music } from "../types"
 
 const getTemplateList = async (): Promise<Music[]> => {
@@ -6,4 +6,12 @@ const getTemplateList = async (): Promise<Music[]> => {
     return list
 }
 
-export { getTemplateList }
+const playNewMusic = async (file: File, type: string) => {
+    await playNewRequest(file, type)
+}
+
+const playMusic = async (id: string, type: string) => {
+    await playRequest(id, type)
+}
+
+export { getTemplateList, playNewMusic, playMusic }
