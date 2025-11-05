@@ -12,8 +12,8 @@ const useMusic = () => {
         return list
     }
 
-    const playNew = async(file: File, type: string) => {
-        await playNewMusic(file, type)
+    const playNew = async(file: File, type: string): Promise<any[]> => {
+        return await playNewMusic(file, type)
     }
 
     const play = async(id: string, type: string) => {
