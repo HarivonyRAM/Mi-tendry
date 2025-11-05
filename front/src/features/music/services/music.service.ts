@@ -6,8 +6,9 @@ const getTemplateList = async (): Promise<Music[]> => {
     return list
 }
 
-const playNewMusic = async (file: File, type: string) => {
-    await playNewRequest(file, type)
+const playNewMusic = async (file: File, type: string): Promise<any[]> => {
+    const { list } = await playNewRequest(file, type)
+    return list
 }
 
 const playMusic = async (id: string, type: string) => {

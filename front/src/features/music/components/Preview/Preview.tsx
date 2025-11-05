@@ -3,18 +3,9 @@ import { Close, PlayArrow } from '@mui/icons-material'
 import { StyledContainer } from "./preview.styles"
 import type { PreviewComponent } from './preview.types';
 import Select from '../../../../shared/components/Select/Select';
-import { useState } from 'react';
 import musicTypes from '../../../../shared/constants/musicTypes';
-import useMusic from '../../hooks/useMusic';
 
-const Preview: PreviewComponent = ({ file, onClose }) => {
-    const defaultType = musicTypes[0]
-    const { playNew } = useMusic()
-    const [ type, setType ] = useState<string | null>(defaultType)
-
-    const play = async () => {
-        await playNew(file!, type ?? defaultType)
-    }
+const Preview: PreviewComponent = ({ file, onClose, onLaunch , onTypeChange}) => {
 
     return (
         <StyledContainer>
@@ -26,10 +17,10 @@ const Preview: PreviewComponent = ({ file, onClose }) => {
                 <Box component="img" src={URL.createObjectURL(file!)}/>
                 <Select
                     options={musicTypes.map(t => ({ label: t, value: t }))}
-                    defaultValue={defaultType}
-                    onChange={e => setType(e.target.value as string)}
+                    defaultValue={musicTypes[0]}
+                    onChange={e => onTypeChange(e.target.value as string)}
                 />
-                <IconButton onClick={play}><PlayArrow/></IconButton>
+                <IconButton onClick={onLaunch}><PlayArrow/></IconButton>
             </Stack>
         </StyledContainer>
     )
