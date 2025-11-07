@@ -1,11 +1,12 @@
+# users/urls.py - CORRIGÉ
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('users/', views.getUsers),
-    path('users/create/', views.addUser),
-    path('users/login/', views.login),
-    path('users/<int:pk>/', views.getUser),
-    path('users/update/<int:pk>/', views.updateUser),
-    path('users/delete/<int:pk>/', views.deleteUser),
+    path('auth', views.getUsers),                    # GET /api/users/
+    path('auth/register', views.addUser),           # POST /api/users/register/
+    path('auth/login', views.login),                # POST /api/users/login/
+    path('auth/<int:pk>', views.getUser),           # GET /api/users/1/
+    path('auth/update/<int:pk>', views.updateUser), # PUT /api/users/update/1/
+    path('auth/delete/<int:pk>', views.deleteUser), # DELETE /api/users/delete/1/
 ]

@@ -65,6 +65,6 @@ for root, _, files in os.walk(INPUT_DIR):
                 print(f"✅ Sauvegardé : {output_path}")
                 count += 1
             except Exception as e:
-                print(f"❌ Erreur sur {f} : {e}")
+                print(f" Erreur sur {f} : {e}")
 
 print(f"\n✨ Terminé ! {count} fichiers jazzifiés dans : {OUTPUT_DIR}")

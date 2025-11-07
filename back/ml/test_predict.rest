@@ -48,5 +48,5 @@ POST http://127.0.0.1:8000/api/ml/predict/
 Content-Type: application/json
 
 {
-  "image_path": "/home/tellar/Documents/DEV/Projets_Scolaires/GRAND PROJET M2/PROJET/Mi-tendry/back/ml/test_set_image/Berceuse.PNG"
+  "image_path": "/home/tellar/Documents/DEV/Projets_Scolaires/GRAND PROJET M2/PROJET/Mi-tendry/back/ml/test_set_image/gymnopedie 1.PNG"
 }
