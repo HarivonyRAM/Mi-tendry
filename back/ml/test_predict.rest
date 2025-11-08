@@ -1,5 +1,5 @@
-# GET   http://127.0.0.1:8000/api/users/
-# Authorization: Token 267a63cbfd8fd68126cad954e1a86bb5d3887b10
+# GET    http://127.0.0.1:8000/api/auth
+# Authorization: Token af84d1458372c80a388a199b26f5410a044f5ca4
 # Content-Type: application/json
 
 # {
@@ -44,9 +44,10 @@
 
 # test_predict.http
 
-POST http://127.0.0.1:8000/api/ml/predict/
+GET http://127.0.0.1:8000/api/ml/predictions/1/
+Authorization: Token af84d1458372c80a388a199b26f5410a044f5ca4
 Content-Type: application/json
 
-{
-  "image_path": "/home/tellar/Documents/DEV/Projets_Scolaires/GRAND PROJET M2/PROJET/Mi-tendry/back/ml/test_set_image/gymnopedie 1.PNG"
-}
+# {
+#   "image_path": "/home/tellar/Documents/DEV/Mi-tendry/back/ml/test_set_image/Berceuse.PNG"
+# }
