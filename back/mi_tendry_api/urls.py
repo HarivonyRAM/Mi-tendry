@@ -8,7 +8,7 @@ from django.conf.urls.static import static  # <-- nécessaire pour servir les fi
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('users.urls')),
-    path('api/ml/', include('ml.urls')),
+    path('api/play/', include('ml.urls')),
     
     # JWT ROUTES
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
