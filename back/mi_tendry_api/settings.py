@@ -69,7 +69,7 @@ MIDDLEWARE = [
 ]
 
 # CORS Configuration
-CORS_ALLOW_ALL_ORIGINS = False  # Pour la production, mettre False
+CORS_ALLOW_ALL_ORIGINS = True  # Pour la production, mettre False
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -97,12 +97,12 @@ CORS_ALLOW_HEADERS = [
 # Pour les requêtes preflight
 CORS_PREFLIGHT_MAX_AGE = 86400
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Vite dev server
-    "http://127.0.0.1:5173",
-    "http://localhost:3000",  # Create React App
-    "http://127.0.0.1:3000",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",  # Vite dev server
+#     "http://127.0.0.1:5173",
+#     "http://localhost:3000",  # Create React App
+#     "http://127.0.0.1:3000",
+# ]
 
 ROOT_URLCONF = 'mi_tendry_api.urls'
 
