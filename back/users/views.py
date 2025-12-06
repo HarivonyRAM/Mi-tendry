@@ -3,134 +3,120 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate # <-- Importé pour la fonction login
 from .serializer import UserSerializer
 
-# Imports pour l'authentification
-from rest_framework.authentication import TokenAuthentication
+# JWT
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-# get tout les users - PROTÉGÉ
+# ---- PROTECTED ROUTES (AUCUN CHANGEMENT) ----
+
 @api_view(['GET'])
-@authentication_classes([TokenAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def getUsers(request):
-    try:
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({
-            "error": "Erreur lors de la récupération des utilisateurs",
-            "details": str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
 
-# get a un seul user - PROTÉGÉ
+
 @api_view(['GET'])
-@authentication_classes([TokenAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def getUser(request, pk):
-    try:
-        user = get_object_or_404(User, id=pk)
-        serializer = UserSerializer(user, many=False)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({
-            "error": "Erreur lors de la récupération de l'utilisateur",
-            "details": str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    user = get_object_or_404(User, id=pk)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
 
-# add user - PUBLIC (pour permettre l'inscription)
+
+@api_view(['PUT'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def updateUser(request, pk):
+    user = get_object_or_404(User, id=pk)
+    serializer = UserSerializer(instance=user, data=request.data, partial=True)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+
+    return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def deleteUser(request, pk):
+    user = get_object_or_404(User, id=pk)
+    user.delete()
+    return Response({"message": "Utilisateur supprimé"}, status=status.HTTP_204_NO_CONTENT)
+
+
+# --- PUBLIC ROUTES (ENREGISTREMENT & CONNEXION) ----
+
 @api_view(['POST'])
 @authentication_classes([])
 @permission_classes([])
-def addUser(request):
-    try:
-        serializer = UserSerializer(data=request.data)
-        
-        if serializer.is_valid():
-            user = serializer.save()
-            
-            # Récupérer le token créé automatiquement par le signal
-            token = Token.objects.get(user=user)
-            
-            return Response({
-                "user": serializer.data,
-                "token": token.key,
-                "message": "Utilisateur créé avec succès"
-            }, status=status.HTTP_201_CREATED)
-        else:
-            return Response({
-                "errors": serializer.errors
-            }, status=status.HTTP_400_BAD_REQUEST)
-            
-    except Exception as e:
-        return Response({
-            "error": "Erreur interne du serveur",
-            "details": str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+def register(request): # <-- Renommée de 'addUser' à 'register' pour la clarté
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        refresh = RefreshToken.for_user(user)
+        access = str(refresh.access_token)
 
-# update user - PROTÉGÉ
-@api_view(['PUT'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def updateUser(request, pk):
-    try:
-        user = get_object_or_404(User, id=pk)
-        serializer = UserSerializer(instance=user, data=request.data, partial=True)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response({
-                "errors": serializer.errors
-            }, status=status.HTTP_400_BAD_REQUEST)
-            
-    except Exception as e:
         return Response({
-            "error": "Erreur lors de la mise à jour de l'utilisateur",
-            "details": str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            "user": serializer.data,
+            "refresh": str(refresh),
+            "access": access,
+            "token": access,
+            "message": "Utilisateur créé avec succès"
+        }, status=status.HTTP_201_CREATED)
 
-# delete user - PROTÉGÉ
-@api_view(['DELETE'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def deleteUser(request, pk):
-    try:
-        user = get_object_or_404(User, id=pk)
-        user.delete()
-        return Response({
-            "message": "Utilisateur supprimé avec succès!"
-        }, status=status.HTTP_204_NO_CONTENT)
-    except Exception as e:
-        return Response({
-            "error": "Erreur lors de la suppression de l'utilisateur",
-            "details": str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-# Login pour récupérer le token
+
 @api_view(['POST'])
 @authentication_classes([])
 @permission_classes([])
 def login(request):
-    from django.contrib.auth import authenticate
-    
-    email = request.data.get('email')
-    password = request.data.get('password')
-    
-    user = authenticate(email=email, password=password)
-    
-    if user:
-        token, created = Token.objects.get_or_create(user=user)
+    email = request.data.get("email")
+    password = request.data.get("password")
+
+    # 1. Tente de trouver l'utilisateur par email
+    try:
+        # Tente de trouver l'utilisateur dans la DB par l'email
+        user_to_auth = User.objects.get(email=email)
+        
+        # Extrait le username de cet utilisateur pour l'utiliser dans authenticate
+        username = user_to_auth.username 
+    except User.DoesNotExist:
+        # Si l'email n'existe pas, renvoie l'erreur 401
         return Response({
-            "token": token.key,
-            "user_id": user.id,
-            "email": user.email,
+            "errors": "Identifiants invalides (email ou mot de passe incorrect)"
+        }, status=status.HTTP_401_UNAUTHORIZED)
+        
+    # 2. Authentifie avec le vrai username et le mot de passe
+    # La fonction authenticate va comparer le mot de passe haché
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        # L'utilisateur est valide : Génère les tokens JWT
+        refresh = RefreshToken.for_user(user)
+        access = str(refresh.access_token)
+
+        serializer = UserSerializer(user)
+
+        return Response({
+            "user": serializer.data,
+            "refresh": str(refresh),
+            "access": access,
+            "token": access,
             "message": "Connexion réussie"
         }, status=status.HTTP_200_OK)
     else:
+        # Si authenticate retourne None, le mot de passe est incorrect
         return Response({
-            "error": "Identifiants invalides"
-        }, status=status.HTTP_400_BAD_REQUEST)
+            "errors": "Identifiants invalides (email ou mot de passe incorrect)"
+        }, status=status.HTTP_401_UNAUTHORIZED)

@@ -27,7 +27,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 SECRET_KEY = 'django-insecure-!nv#$(@0*^a&-=o=5@9om$%sn0r90l6r(psfowr1u$eg1v)c$x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
@@ -42,12 +42,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'corsheaders',
     'users',
+    'rest_framework_simplejwt',
     # 'media',
     'ml'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
