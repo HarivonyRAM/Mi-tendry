@@ -1,0 +1,46 @@
+POST http://localhost:8000/api/auth/login
+Content-Type: application/json
+Accept: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY1MDI4NjE1LCJpYXQiOjE3NjUwMjgzMTUsImp0aSI6ImU3ZmZhNDUxOTJjMTQyN2JiOTJmZWQ4MTEyODY0ZGE5IiwidXNlcl9pZCI6IjExIn0.W3HrL2FSVwnX6ZqVEQg0DRS-I26puqTuzgGOpeYjfQc
+
+{
+  "email": "test5@example.com",
+  "password": "test123"
+}
+
+# token test1@example.com: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY1MDI3OTIzLCJpYXQiOjE3NjUwMjc2MjMsImp0aSI6ImIzNmU2N2U5OTliNTQ4ZDg4MWNlMmM3YTk5MDQ2NTRkIiwidXNlcl9pZCI6IjkifQ.C1D_xtJMf5WiU0gBDpQ0NFeRT7HiDQes2TFPGJi5HwQ
+
+# HTTP/1.1 201 Created
+# Date: Wed, 29 Oct 2025 22:52:42 GMT
+# Server: WSGIServer/0.2 CPython/3.12.3
+# Content-Type: application/json
+# Vary: Accept
+# Allow: POST, OPTIONS
+# X-Frame-Options: DENY
+# Content-Length: 204
+# X-Content-Type-Options: nosniff
+# Referrer-Policy: same-origin
+# Cross-Origin-Opener-Policy: same-origin
+
+# {
+#   "user": {
+#     "id": 3,
+#     "username": "testuser2",
+#     "email": "test2@example.com",
+#     "first_name": "Test2",
+#     "last_name": "User2"
+#   },
+#   "token": "0a8c7cc59bc7680ef8abebc357a7dac2a07734d3",
+#   "message": "Utilisateur créé avec succès"
+# }
+
+# id: 4
+# token: 2ebb18e785ae48f70e126bd61712a723a31b2d34
+
+# {
+#   "username": "Fens",
+#   "email": "fens@gmail.com",
+#   "password": "123",
+#   "first_name": "RAKOTO",
+#   "last_name": "Fenosoa"
+# }

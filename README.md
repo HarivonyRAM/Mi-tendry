@@ -71,5 +71,8 @@ DATABASES = {
     }
 }
 
+# 3. Création de superuser
+`python manage.py createsuperuser`
+
 # 3. Test de lancement du serveur
 `python manage.py runserver`

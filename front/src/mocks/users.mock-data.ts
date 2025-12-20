@@ -11,6 +11,12 @@ const mockUsers: MockUser[] = [
         email: "test@gmail.com",
         name: "Test",
         password: "test"
+    },
+    {
+        id: "2",
+        email: "music@gmail.com",
+        name: "music",
+        password: "music"
     }
 ]
 
