@@ -44,11 +44,16 @@
 
 # test_predict.http
 
-POST http://127.0.0.1:8000/api/ml/predict/
+POST http://127.0.0.1:8000/api/play/new
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY1MDMyNDQxLCJpYXQiOjE3NjUwMzIxNDEsImp0aSI6IjZhODRmYmE5NTVjZjQ1YjhiZDg1ZjE4MzVkZjk1ODBjIiwidXNlcl9pZCI6IjExIn0.qW3_dagBs5rhrWU-T0AqYJHZUZrGvcttTU3TMdxtAJM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2MjYwMTUwLCJpYXQiOjE3NjYyNTk4NTAsImp0aSI6ImY3NWQ4MTM2MWRhMzQ2NWZhZTJhMDNlNGM0NWIxOTkxIiwidXNlcl9pZCI6IjEzIn0.oNWbPsbMpjoqaCVwoAf-kBM5w0463sCf9QxnU3hJ_Ek
 
 {
   "image_path": "/home/tellar/Documents/DEV/Mi-tendry/back/ml/test_set_image/Berceuse.PNG"
 }
+
+# GET http://127.0.0.1:8000/api/play/predictions
+# Content-Type: application/json
+# Accept: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2MjU3NTA3LCJpYXQiOjE3NjYyNTcyMDcsImp0aSI6IjBiZTUzOGYyZTA2NTQ2MWFiMmNmODZiZDg4NjlmOTNkIiwidXNlcl9pZCI6IjEzIn0.VUIcnFq73H47teTN3Rd9B_BrscxpUCpR1AUFb7HlF3Y
