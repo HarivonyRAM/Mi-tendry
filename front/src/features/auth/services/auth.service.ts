@@ -4,8 +4,12 @@ import type { LoginCredentials, User, AuthResponse, JwtPayload, RegisterCredenti
 
 const LOCAL_STORAGE_TOKEN_KEY = 'token'
 
+const getToken = (): string | null => {
+    return localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY)
+}
+
 const getUser = (token?: string): User | null => {
-    token = token ?? localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY) ?? undefined
+    token = token ?? getToken() ?? undefined
     if (!token) return null
     const decoded = parseJwt(token)
     if (!decoded) throw new Error("Invalid token")
@@ -41,4 +45,4 @@ const parseJwt = (token: string): JwtPayload | null => {
     }
 }
 
-export default { login, register, logout, getUser }
+export default { login, register, logout, getUser, getToken }

@@ -1,9 +1,13 @@
 import { apiUrl } from '../../../app/config'
+import authService from '../../auth/services/auth.service'
 
 export const getTemplateListRequest = async (): Promise<any> => {
 
   const response = await fetch(`${apiUrl}/template/list`, {
-    method: 'GET'
+    method: 'GET',
+    headers: {
+      'authorization': `Bearer ${authService.getToken()}`,
+    }
   })
 
   if (!response.ok) {
@@ -18,6 +22,7 @@ export const playNewRequest = async (file: File, type: string): Promise<any> => 
   const response = await fetch(`${apiUrl}/play/new`, {
     method: "POST",
     headers: {
+      'authorization': `Bearer ${authService.getToken()}`,
       'Content-Type': 'multipart/form-data',
     },
     body: (() => {
@@ -41,6 +46,7 @@ export const playRequest = async (id: string, type: string): Promise<any> => {
   const response = await fetch(`${apiUrl}/play`, {
     method: "POST",
     headers: {
+      'authorization': `Bearer ${authService.getToken()}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ id, type })

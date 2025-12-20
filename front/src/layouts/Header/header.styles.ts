@@ -6,6 +6,9 @@ export const StyledContainer = styled(Stack)(({ theme }) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    "& .logo_ispm": {
+        height: "60px",
+    },
     "& .logo": {
         flexDirection: "row",
         alignItems: "center",

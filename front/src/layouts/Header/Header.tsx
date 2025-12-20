@@ -16,12 +16,13 @@ const Header = () => {
 
     return(
         <StyledContainer>
-            <Button
+{/*            <Button
                 variant="outlined"
                 onClick={e => setAnchorEl(e.currentTarget)}
             >
                 Choisir un template
-            </Button>
+            </Button>*/}
+            <Box component="img" src="/ispm.jpeg" className="logo_ispm"/>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
