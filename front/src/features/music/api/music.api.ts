@@ -23,7 +23,7 @@ export const playNewRequest = async (file: File, type: string): Promise<any> => 
     method: "POST",
     headers: {
       'authorization': `Bearer ${authService.getToken()}`,
-      'Content-Type': 'multipart/form-data',
+      // 'Content-Type': 'multipart/form-data',
     },
     body: (() => {
       const formData = new FormData()
