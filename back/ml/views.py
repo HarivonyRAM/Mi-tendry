@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import os
 
 from tensorflow.keras.models import load_model
 
@@ -120,12 +119,23 @@ def predict_partition(request):
     ]
 
     sorted_idx = np.argsort(preds)[::-1][:20]
-    top_20 = [
+
+    # ===== FORMAT STOCKAGE (DB) =====
+    top_20_db = [
         {
             "classe": CLASSES[i],
             "probabilite": float(preds[i]),
         }
         for i in sorted_idx
+    ]
+
+    # ===== FORMAT EXPOSÉ API =====
+    top_20_api = [
+        {
+            "class": item["classe"],
+            "probability": item["probabilite"],
+        }
+        for item in top_20_db
     ]
 
     # =======================
@@ -134,7 +144,7 @@ def predict_partition(request):
     PredictionResult.objects.create(
         image_name=uploaded_file.name,
         detected_classes=detected_classes,
-        top_20=top_20,
+        top_20=top_20_db,
     )
 
     # =======================
@@ -145,7 +155,7 @@ def predict_partition(request):
             "message": "✅ Prédiction réussie",
             "image": uploaded_file.name,
             "classes_detectees": detected_classes,
-            "top_20": top_20,
+            "list": top_20_api,   # 👈 mapping appliqué ici
         },
         status=status.HTTP_200_OK,
     )
@@ -160,8 +170,20 @@ def predict_partition(request):
 @permission_classes([IsAuthenticated])
 def get_predictions(request):
     predictions = PredictionResult.objects.all().order_by("-created_at")
-    serializer = PredictionResultSerializer(predictions, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    data = PredictionResultSerializer(predictions, many=True).data
+
+    # Mapping pour exposition API
+    for item in data:
+        item["list"] = [
+            {
+                "class": x["classe"],
+                "probability": x["probabilite"],
+            }
+            for x in item.get("top_20", [])
+        ]
+        item.pop("top_20", None)
+
+    return Response(data, status=status.HTTP_200_OK)
 
 
 # ============================================================
@@ -180,5 +202,15 @@ def get_prediction_detail(request, pk):
             status=status.HTTP_404_NOT_FOUND,
         )
 
-    serializer = PredictionResultSerializer(prediction)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    data = PredictionResultSerializer(prediction).data
+
+    data["list"] = [
+        {
+            "class": x["classe"],
+            "probability": x["probabilite"],
+        }
+        for x in data.get("top_20", [])
+    ]
+    data.pop("top_20", None)
+
+    return Response(data, status=status.HTTP_200_OK)
